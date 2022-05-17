@@ -9,8 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $execute = mysqli_query($connecting, $inpt_record);
   $roow = mysqli_num_rows($execute);
   $check_login_pass = mysqli_fetch_assoc($execute);
+  
+  // echo '<script>alert("$check_login_pass"); debugger; </script>';
+  
   $loginhash = password_verify($loginPass, $check_login_pass['password']);
+  
   if ($roow == 1) {
+    
     if ($loginhash) {
       $_SESSION['$warning']  = false;
       $_SESSION['$warning2']  = false;
@@ -18,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       $_SESSION['check'] = true;
       $_SESSION['firstLogin'] = false;
       $_SESSION['use'] = true;
-    header("location: ../index.php");
+      $_SESSION['userid'] = $check_login_pass['userid'];
+      header("location: ../index.php");
     } else {
         $_SESSION['$warning'] = true;
     header("location: ../index.php");

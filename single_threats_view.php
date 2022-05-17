@@ -11,11 +11,11 @@ if(isset($_SESSION['check'])){
             $query_reply = $_POST['reply'];
             $query_reply =str_replace("<","&lt;",$query_reply);
             $query_reply =str_replace(">","&gt;",$query_reply);
+            $query_reply =str_replace("'","\"",$query_reply);
             // $query_tit = $_POST['Query_title'];
             $set_query_user = "SELECT * FROM users WHERE user_name = '$_SESSION[userInfo]' || email = '$_SESSION[userInfo]' ";
             $result_set_query_user = mysqli_query($connecting, $set_query_user);
             $fetch_set_query_user = mysqli_fetch_assoc($result_set_query_user);
-
             $set_query_dublacy = "SELECT * FROM replies WHERE reply = '$query_reply' ";
             $result_set_query_dublacy = mysqli_query($connecting, $set_query_dublacy);
             $row = mysqli_num_rows($result_set_query_dublacy);
@@ -102,6 +102,7 @@ else{
                 <strong>Warning ! You are not login yet.<a style="color:#02025c;"> Try to Login First.</a> </strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
+
         }
     ?>
 
@@ -220,8 +221,8 @@ else{
                     <div class="flex-shrink-0">
                       <img src="./img/user_default_img.png" width="40px" height="40px" alt="...">
                     </div>
-                    <div class="flex-grow-1 ms-3">
-                    <h4><a class="text-dark overunderline"><pre>'.$fetch_read_threat["reply"].'</pre></a></h4>
+                    <div class="flex-grow-1 ms-3" style="width:90%;">
+                    <h4><a class="text-dark overunderline" style="font-size:18px;"><pre>'.$fetch_read_threat["reply"].'</pre></a></h4>
                        <a class="text-success" style=""> '.$fetch_read_threat["R_user_name"].'</a>
                        <a style="font-size:13px; padding-right:10px; position: sticky; left: 75vw; top: -3px;">'.$fetch_read_threat["reply_datetime"].'</a>
                     </div>
@@ -252,13 +253,21 @@ else{
         </div>
         
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
+        
+            <button id="btnsubmit" type="submit" class="btn btn-primary">Submit</button>
         </div>
         </form>
 
         </div>
         </div>
     ';
+    if ($firstlog){
+        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Warning ! You are not login yet.<a style="color:#02025c;"> Try to Login First.</a> </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div> <script>document.getElementById("btnsubmit").style.display = "none";</script>';
+
+    }
 ?>
 
 
